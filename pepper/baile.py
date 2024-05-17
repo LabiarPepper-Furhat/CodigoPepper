@@ -84,7 +84,6 @@ def dance(motion_service):
 def main():
     # IP y puerto del robot Pepper
     pepper_ip=os.getenv('IP_PEPPER')  # type: ignore # Cambia esto por la IP de tu robot
-    print(pepper_ip)
     pepper_port = 9559
 
     # Crear una conexión con el robot
