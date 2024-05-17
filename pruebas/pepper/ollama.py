@@ -2,11 +2,19 @@
 import json
 import socket
 import requests
+import re
 
 # NOTE: ollama must be running for this to work, start the ollama app or run `ollama serve`
 model = "llama3"  # TODO: update this for whatever model you wish to use
-
-
+def reemplazar_acentos(texto):
+    # Reemplazar letras con acento por las equivalentes sin acento
+    texto_sin_acentos = texto.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u')
+    texto_sin_acentos = texto_sin_acentos.replace('Á', 'A').replace('É', 'E').replace('Í', 'I').replace('Ó', 'O').replace('Ú', 'U')
+    return texto_sin_acentos
+def filtrar_caracteres(texto):
+    # Filtrar caracteres de exclamación e interrogación
+    texto_filtrado = re.sub(r'[!¡?¿]', '', texto)  # Elimina !, ¡, ?, ¿
+    return reemplazar_acentos(texto_filtrado)
 def chat(messages):
     r = requests.post(
         "http://localhost:11434/api/chat",
@@ -27,7 +35,7 @@ def chat(messages):
             print(content, end="", flush=True)
 
         if body.get("done", False):
-            message["content"] = output
+            message["content"] = filtrar_caracteres(output)
             return message
 
 
@@ -46,11 +54,11 @@ def main():
                 data = conn.recv(1024)
                 if not data:
                     break
-                print('Recibido:', data.decode('utf-8'))
-                messages = [{"role": "user", "content": data.decode('utf-8')}]
+                print('Recibido:', data.decode())
+                messages = [{"role": "user", "content": data.decode()}]
                 message = chat(messages)
-                print("\n\n")
-                conn.sendall(message["content"].encode('utf-8'))
+                print("\n")
+                conn.sendall(message["content"].encode())
 
 
 if __name__ == "__main__":
