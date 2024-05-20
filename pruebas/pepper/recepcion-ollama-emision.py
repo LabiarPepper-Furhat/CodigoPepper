@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+
+# Este código es una prueba para recibir, enviar mensajes a ollama y enviar respuestas del modelo al código en Python 2.7.18
+# Python 3.12.3
+
 import json
 import socket
 import requests
@@ -64,6 +68,7 @@ def main():
 
                 messages = [{"role": "user", "content": data.decode()}]
                 message = chat(messages)
+                messages.append(message)
                 print("\n")
                 conn.sendall(message["content"].encode())
 
