@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Cliente en Python 2.7
 import socket
 

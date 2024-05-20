@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Servidor en Python 3.12.3
 import socket
 
@@ -16,7 +17,10 @@ def main():
                 data = conn.recv(1024)
                 if not data:
                     break
-                print('Recibido:', data.decode())
+                try:
+                    print('Recibido:', data.decode('utf-8', errors='ignore'))
+                except UnicodeDecodeError:
+                    print('Error al decodificar los datos')
                 conn.sendall(b'Recibido')
 
 if __name__ == "__main__":
