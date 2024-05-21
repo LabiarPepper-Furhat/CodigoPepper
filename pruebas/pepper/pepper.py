@@ -30,10 +30,11 @@ def main():
         asr.subscribe("SocketTest")
         
         # Manejar eventos de reconocimiento de voz
-        print("Pepper está escuchando...")
+        print("Pepper esta escuchando...")
         while True:
             # Esperar hasta que se detecte un mensaje
             mensaje_escuchado = asr.recognize().encode()  # Reconocer la voz y codificarla como bytes
+            #mensaje_escuchado = raw_input("Mensaje para enviar al servidor: ")
             print("Mensaje escuchado:", mensaje_escuchado)
             client_socket.sendall(mensaje_escuchado)
             data = client_socket.recv(1024)
